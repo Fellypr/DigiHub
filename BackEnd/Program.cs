@@ -1,24 +1,21 @@
-// using Backend.Data;
+
+using BackEnd.data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 
-// builder.Services.AddDbContext<AppDbContext>(options =>
-//     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
-// );
-
-
-
-
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("defaultConnection"))
+);
 
 
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("PermitirFrontend",
         policy => policy
-            .WithOrigins("http://localhost:5173")
+            .WithOrigins("http://localhost:3000")
             .AllowAnyMethod()
             .AllowAnyHeader()
     );
@@ -28,7 +25,7 @@ builder.Services.AddControllers();
 
 var app = builder.Build();
 
-
+app.UseRouting();
 app.UseCors("PermitirFrontend");
 
 app.UseAuthorization();
